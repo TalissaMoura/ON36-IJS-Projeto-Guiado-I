@@ -51,4 +51,8 @@ export class AlunoService {
   listar() {
     return this.alunoRepository.listar();
   }
+
+  buscarAlunoPorEmail(alunoEmail:string){
+    return this.alunoRepository.buscarPorEmail(alunoEmail)
+  }
 }
