@@ -17,6 +17,9 @@ export class InFileAlunoRepository implements AlunoRepository {
   buscarPorEmail(email: string): Promise<Aluno> {
     throw new Error('Method not implemented.');
   }
+  salvarCursoEmAluno(alunoEmail: string, cursoId: string): Promise<void> {
+      throw new Error("Method not implemented")
+  }
   private readonly alunos = new Map<string, AlunoEntity>();
 }
 
