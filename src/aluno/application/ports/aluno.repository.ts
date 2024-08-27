@@ -4,6 +4,7 @@ export abstract class AlunoRepository {
   abstract salvar(aluno: Aluno): Promise<Aluno>;
   abstract listar(): Promise<Aluno[]>;
   abstract buscarPorEmail(email: string): Promise<Aluno>;
+  abstract salvarCursoEmAluno(alunoEmail:string,cursoId:string): Promise<void>
 }
 
 // Isso é uma porta, ou seja, uma interface que define um contrato que deve ser implementado
