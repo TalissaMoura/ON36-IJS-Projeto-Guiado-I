@@ -3,6 +3,7 @@ import { AlunoRepository } from '../../../../application/ports/aluno.repository'
 import { AlunoEntity } from '../entities/aluno.entity';
 import { Aluno } from '../../../../domain/aluno';
 import { AlunoMapper } from '../mappers/aluno.mapper';
+import { AlunoCurso } from 'src/shared/domain/models/alunoCurso.model';
 
 @Injectable()
 export class InMemoryAlunoRepository implements AlunoRepository {
@@ -27,6 +28,14 @@ export class InMemoryAlunoRepository implements AlunoRepository {
       return null;
     }
     return AlunoMapper.paraDominio(alunoEncontrado);
+  }
+
+  async salvarCursoEmAluno(alunoEmail: string, cursoId: string): Promise<void> {
+    const alunoCurso: AlunoCurso = { alunoEmail, cursoId }
+    const aluno = await this.buscarPorEmail(alunoEmail)
+    aluno.cursos.push(alunoCurso)
+    const updatedAlunoPersistenceModel = AlunoMapper.paraPersistencia(aluno)
+    this.alunos.set(updatedAlunoPersistenceModel.id, updatedAlunoPersistenceModel);
   }
 }
 
