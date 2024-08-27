@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CursoFactory } from '../domain/factory/curso.factory';
 import { CreateCursoCommand } from './command/create-curso-command';
 import { AlunoService } from '../../aluno/application/aluno.service';
@@ -31,10 +31,18 @@ export class CursoService {
 
     const aluno = this.alunoService.buscarAlunoPorEmail(alunoEmail)
 
+    if (!aluno){
+      throw new UnauthorizedException("Invalid Operation")
+    }
+
     const alunoCurso: AlunoCurso = { alunoEmail, cursoId }
 
     await this.cursoRepository.salvarAlunoEmCurso(alunoCurso)
 
     await this.alunoService.salvarCursoEmAluno(alunoEmail,cursoId)
+}
+
+async listarAlunosMatriculados(cursoId:string): Promise<string[]>{
+  return await this.cursoRepository.listarAlunosMatriculados(cursoId)
 }
 }
