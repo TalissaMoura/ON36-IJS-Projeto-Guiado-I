@@ -21,7 +21,7 @@ export class InMemoryAlunoRepository implements AlunoRepository {
     return entities.map((item) => AlunoMapper.paraDominio(item));
   }
 
-  async buscarPorEmail(email: string): Promise<Aluno> {
+  async buscarPorEmail(email: string): Promise<Aluno|null>{
     const entities = Array.from(this.alunos.values());
     const alunoEncontrado = entities.find((item) => item.email === email);
     if (!alunoEncontrado) {
@@ -36,6 +36,11 @@ export class InMemoryAlunoRepository implements AlunoRepository {
     aluno.cursos.push(alunoCurso)
     const updatedAlunoPersistenceModel = AlunoMapper.paraPersistencia(aluno)
     this.alunos.set(updatedAlunoPersistenceModel.id, updatedAlunoPersistenceModel);
+  }
+
+  async listarCursosDoAluno(alunoId: string): Promise<string[]> {
+      const alunoEntity = this.alunos.get(alunoId)
+      return alunoEntity.cursos.map((item:AlunoCurso)=>item.cursoId)
   }
 }
 
