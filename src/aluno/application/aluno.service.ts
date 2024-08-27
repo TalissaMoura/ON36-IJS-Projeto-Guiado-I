@@ -14,9 +14,9 @@ export class AlunoService {
     private readonly alunoFactory: AlunoFactory,
   ) {}
 
-  cadastrar(createAlunoCommand: CreateAlunoCommand) {
-    this.validarIdadeMinima(createAlunoCommand);
-    this.validarSeJaExiste(createAlunoCommand);
+  async cadastrar(createAlunoCommand: CreateAlunoCommand) {
+    await this.validarIdadeMinima(createAlunoCommand);
+    await this.validarSeJaExiste(createAlunoCommand);
 
     const novoAluno = this.alunoFactory.criar(
       createAlunoCommand.nome,
@@ -28,8 +28,8 @@ export class AlunoService {
     return this.alunoRepository.salvar(novoAluno);
   }
 
-  private validarSeJaExiste(createAlunoCommand: CreateAlunoCommand) {
-    const alunoExistente = this.alunoRepository.buscarPorEmail(
+  private async validarSeJaExiste(createAlunoCommand: CreateAlunoCommand) {
+    const alunoExistente = await this.alunoRepository.buscarPorEmail(
       createAlunoCommand.email,
     );
     if (alunoExistente) {
@@ -39,7 +39,7 @@ export class AlunoService {
     }
   }
 
-  private validarIdadeMinima(createAlunoCommand: CreateAlunoCommand) {
+  private async validarIdadeMinima(createAlunoCommand: CreateAlunoCommand) {
     const anoAtual = new Date().getFullYear();
     const idade = anoAtual - createAlunoCommand.anoNascimento;
     const IDADE_MIN_CADASTRO = 16;
@@ -48,7 +48,19 @@ export class AlunoService {
     }
   }
 
-  listar() {
-    return this.alunoRepository.listar();
+  async listar() {
+    return await this.alunoRepository.listar();
+  }
+
+  async buscarAlunoPorEmail(alunoEmail:string){
+    return await this.alunoRepository.buscarPorEmail(alunoEmail)
+  }
+
+  async salvarCursoEmAluno(alunoEmail:string,cursoId:string){
+    return await this.alunoRepository.salvarCursoEmAluno(alunoEmail,cursoId)
+  }
+
+  async listarCursosDoAluno(alunoId:string){
+    return await this.alunoRepository.listarCursosDoAluno(alunoId)
   }
 }

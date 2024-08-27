@@ -5,9 +5,10 @@ import { CoreModule } from './aluno/core/core.module';
 import { ApplicationBootstrapOptions } from './aluno/common/interfaces/application-bootstrap-options.interface';
 import { AlunoModule } from './aluno/application/aluno.module';
 import { AlunoInfrastructureModule } from './aluno/infrastructure/aluno-infrastructure.module';
+import { CursoModule } from './curso/application/curso.module';
 
 @Module({
-  imports: [CoreModule],
+  imports: [CoreModule, CursoModule],
   controllers: [AppController],
   providers: [AppService],
 })
