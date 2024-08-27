@@ -6,5 +6,5 @@ export abstract class CursoRepository {
   abstract salvar(curso: Curso): Promise<Curso>;
   abstract listar(): Promise<Curso[]>;
   abstract salvarAlunoEmCurso(novoAlunoCurso:AlunoCurso): Promise<void>;
-  abstract listarAlunosMatriculados(cursoId:string): Promise<[]>
+  abstract listarAlunosMatriculados(cursoId:string): Promise<string[]>
 }
