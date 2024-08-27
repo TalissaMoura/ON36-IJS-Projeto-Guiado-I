@@ -6,6 +6,7 @@ import { AlunoFactory } from '../domain/factories/aluno-factory';
 @Module({
   controllers: [AlunoController],
   providers: [AlunoService, AlunoFactory],
+  exports: [AlunoService,AlunoFactory]
 })
 export class AlunoModule {
   // Aqui criamos um método estático que nos permite escolher qual módulo de persistência queremos usar.
