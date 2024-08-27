@@ -1,10 +1,12 @@
+import { AlunoCurso } from "../../../../../shared/domain/models/alunoCurso.model";
+
 export class AlunoEntity {
   id: string;
   nome: string;
   endereco: string;
   email: string;
   telefone: string;
-  cursos: string[];
+  cursos: AlunoCurso[];
 }
 
 // Aqui no in-memory a entidade nao precisa de decoradores, pois nao estamos utilizando um banco de dados ainda.
