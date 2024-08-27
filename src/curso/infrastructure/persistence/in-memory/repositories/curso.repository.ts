@@ -21,15 +21,15 @@ export class InMemoryCursoRepository implements CursoRepository {
         return entities.map((item) => CursoMapper.paraDominio(item));
     }
     async salvarAlunoEmCurso(novoAlunoCurso: AlunoCurso): Promise<void> {
-        const cursoEntity = this.cursos[novoAlunoCurso.cursoId]
-        cursoEntity.alunos.push(novoAlunoCurso) // push new AlunoCurso 
-        const updatedModel = CursoMapper.paraDominio(cursoEntity)
-        const persistenceModel = CursoMapper.paraPersistencia(updatedModel)
+        const cursoEntity = this.cursos.get(novoAlunoCurso.cursoId)
+        const cursoModel = CursoMapper.paraDominio(cursoEntity)
+        cursoModel.alunos.push(novoAlunoCurso)
+        const persistenceModel = CursoMapper.paraPersistencia(cursoModel)
         this.cursos.set(persistenceModel.id,persistenceModel) // save new model
     }
 
-    async listarAlunosMatriculados(cursoId:string): Promise<[]> {
-        const cursoEntity = this.cursos[cursoId]
+    async listarAlunosMatriculados(cursoId:string): Promise<string[]> {
+        const cursoEntity = this.cursos.get(cursoId)
         return cursoEntity.alunos.map((item:AlunoCurso)=>item.alunoEmail)
     }
 
