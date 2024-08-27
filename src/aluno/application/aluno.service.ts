@@ -55,4 +55,8 @@ export class AlunoService {
   buscarAlunoPorEmail(alunoEmail:string){
     return this.alunoRepository.buscarPorEmail(alunoEmail)
   }
+
+  salvarCursoEmAluno(alunoEmail:string,cursoId:string){
+    return this.alunoRepository.salvarCursoEmAluno(alunoEmail,cursoId)
+  }
 }
