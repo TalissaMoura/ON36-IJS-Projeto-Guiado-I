@@ -1,4 +1,4 @@
-import { AlunoCurso } from "src/shared/domain/models/cursoAluno.model";
+import { AlunoCurso } from "../../shared/domain/models/alunoCurso.model";
 
 export class Curso {
     constructor(
