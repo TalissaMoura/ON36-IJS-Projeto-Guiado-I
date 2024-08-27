@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { cursoRepository } from './port/curso.repository';
-import { cursoFactory } from '../domain/factory/curso.factory';
+import { CursoFactory } from '../domain/factory/curso.factory';
 import { CreateCursoCommand } from './command/create-curso-command';
-import { AlunoService } from 'src/aluno/application/aluno.service';
-import { AlunoCurso } from 'src/shared/domain/models/cursoAluno.model';
+import { AlunoService } from '../../aluno/application/aluno.service';
+import { AlunoCurso } from '../../shared/domain/models/alunoCurso.model';
+import { InMemoryCursoRepository } from '../infrastructure/persistence/in-memory/repositories/curso.repository';
 
 @Injectable()
 export class CursoService {
   constructor(
-    private readonly cursoRepository: cursoRepository,
-    private readonly cursoFactory: cursoFactory,
+    private readonly cursoRepository: InMemoryCursoRepository,
+    private readonly cursoFactory: CursoFactory,
     private readonly alunoService: AlunoService
   ){}
   create(createCursoCommand: CreateCursoCommand) {
@@ -20,7 +20,11 @@ export class CursoService {
         createCursoCommand.professores
     )
 
-    this.cursoRepository.salvar(novoCurso)
+    return this.cursoRepository.salvar(novoCurso)
+  }
+
+  listar(){
+    return this.cursoRepository.listar()
   }
 
  async adicionaAlunoAoCurso(alunoEmail:string,cursoId:string):Promise<void>{
@@ -30,5 +34,7 @@ export class CursoService {
     const alunoCurso: AlunoCurso = { alunoEmail, cursoId }
 
     await this.cursoRepository.salvarAlunoEmCurso(alunoCurso)
+
+    await this.alunoService.salvarCursoEmAluno(alunoEmail,cursoId)
 }
 }
